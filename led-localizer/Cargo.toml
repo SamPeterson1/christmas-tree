@@ -1,0 +1,15 @@
+[package]
+name = "led-localizer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+image = "0.25.5"
+reqwest = "0.12.9"
+serialport = "4.6.1"
+tokio = { version = "1.42.0", features = ["rt-multi-thread", "macros"] }
+
+[dependencies.nokhwa]
+version = "0.10.0"
+# Use the native input backends, enable WGPU integration
+features = ["input-native", "output-wgpu"]
