@@ -8,8 +8,8 @@
 RingBuffer uart3_rx_buffer;
 
 void SystemInit(void) {
-	// Enable FPU
-    SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));
+	/* Enable FPU */
+    SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2));
 }
 
 void USART3_IRQHandler(void) {
@@ -22,7 +22,7 @@ void USART3_IRQHandler(void) {
 int main(void) {
 	rcc_init();
 
-	//Enable USART3 interrupt
+	/* Enable USART3 interrupt */
 	NVIC->ISER[1] |= (1U << 7);
 
 	usart3_init();

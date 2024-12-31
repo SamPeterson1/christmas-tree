@@ -1,5 +1,6 @@
 #include "color.h"
 
+/* Perform hsv to rgb color conversion */
 RGBColor hsv_to_rgb(HSVColor hsv) {
     RGBColor rgb;
     uint8_t region, remainder, p, q, t;

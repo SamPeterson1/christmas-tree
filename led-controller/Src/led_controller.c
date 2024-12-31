@@ -453,26 +453,23 @@ const float led_positions[450][3] = {
     {-0.4206376, 2.3580265, -9.451143},
 };
 
+/* 
+ * Initialize LED controller by zeroing color buffer and DMA buffer 
+ * Also initialize PWM with DMA 
+ */
 void led_init(LEDController *controller) {
-    for (int i = 0; i < N_LEDS; i++) {
-        controller->colors[i].r = 0;
-        controller->colors[i].g = 0;
-        controller->colors[i].b = 0;
-    }
-
-    led_update(controller);
-
-    for (int i = 0; i < N_BLANK_FRAMES * 24; i++) {
-        controller->pwm_dma_buf[N_LEDS * 24 + i] = 0;
-    }
+    memset(controller->colors, 0, sizeof(controller->colors));
+    memset(controller->pwm_dma_buf, 0, sizeof(controller->pwm_dma_buf));
 
     init_pwm(controller->pwm_dma_buf, N_LEDS * 24 + N_BLANK_FRAMES * 24);
 }
 
+/* Set an led to a color */
 void led_set(LEDController *controller, int i, RGBColor color) {
     controller->colors[i] = color;
 }
 
+/* Update the DMA buffer */
 void led_update(LEDController *controller) {
     for (int i = 0; i < N_LEDS; i++) {
         int j = i * 24;
@@ -482,9 +479,9 @@ void led_update(LEDController *controller) {
         int b = controller->colors[i].b;
 
         for (int bit = 0; bit < 8; bit ++) {
-            controller->pwm_dma_buf[j + bit] = (r & (1 << (7 - bit))) ? 16 : 7;
-            controller->pwm_dma_buf[j + 8 + bit] = (g & (1 << (7 - bit))) ? 16 : 7;
-            controller->pwm_dma_buf[j + 16 + bit] = (b & (1 << (7 - bit))) ? 16 : 7;
+            controller->pwm_dma_buf[j + bit] = (r & (1 << (7 - bit))) ? LED_LONG_PULSE : LED_SHORT_PULSE;
+            controller->pwm_dma_buf[j + 8 + bit] = (g & (1 << (7 - bit))) ? LED_LONG_PULSE : LED_SHORT_PULSE;
+            controller->pwm_dma_buf[j + 16 + bit] = (b & (1 << (7 - bit))) ? LED_LONG_PULSE : LED_SHORT_PULSE;
         }
     }
 }

@@ -8,6 +8,8 @@
 #define N_LEDS 450
 #define N_BLANK_FRAMES 100
 
+#define LED_LONG_PULSE 16
+#define LED_SHORT_PULSE 7
 
 extern const float led_positions[450][3];
 
