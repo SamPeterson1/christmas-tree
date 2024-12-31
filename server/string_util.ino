@@ -36,6 +36,10 @@ bool string_split(char *src, char **dst, char *split, int max_n_splits, int *n_s
     }
 
     if (find(src, split, i)) {
+      if (i - left >= STRING_LEN) {
+        return false;
+      }
+
       substr(src, dst[(*n_splits) ++], left, i);
 
       i += split_len - 1;
@@ -43,7 +47,7 @@ bool string_split(char *src, char **dst, char *split, int max_n_splits, int *n_s
     }
   }
 
-  if (*n_splits >= max_n_splits) {
+  if (*n_splits >= max_n_splits || src_len - left >= STRING_LEN) {
     return false;
   }
 
