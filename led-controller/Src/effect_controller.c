@@ -106,7 +106,7 @@ uint8_t get_n_effects(EffectController *controller) {
     uint8_t n_effects = 0;
 
     for (int i = 0; i < MAX_N_EFFECTS; i ++) {
-        if (controller->effects[i].id == i) {
+        if (controller->effects[i].id != 0xFF) {
             n_effects++;
         }
     }
@@ -197,7 +197,7 @@ void listen_next_effect(EffectController *controller, RingBuffer *uart_rx_buffer
 
     if (effect_id == 0xFF) {
         list_effects(controller);
-    } else if (controller->effects[effect_id].id == effect_id) {
+    } else if (controller->effects[effect_id].id != 0xFF) {
         controller->pending_effect_id = effect_id;
         controller->expected_param_bytes = calculate_param_bytes(&controller->effects[effect_id]);
     } else {

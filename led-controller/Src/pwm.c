@@ -17,6 +17,8 @@ void init_pwm(uint16_t *dma_buf, uint16_t size) {
     DMA2_Stream5->CR |= (0b01 << 13); /* Set memory data size to 16 bits */
     DMA2_Stream5->CR |= DMA_SxCR_MINC; /* Enable memory increment */
     DMA2_Stream5->CR |= DMA_SxCR_CIRC; /* Enable circular mode */
+    
+    DMA2_Stream5->CR |= DMA_SxCR_EN; /* Enable DMA stream */
 
     TIM1->PSC = 0; /* No clock prescaler */
     TIM1->ARR = 25; /* Set PWM period to 25 ticks */
